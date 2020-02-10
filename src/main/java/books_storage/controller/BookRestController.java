@@ -3,10 +3,7 @@ package books_storage.controller;
 import books_storage.dto.BookDTO;
 import books_storage.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,9 +18,24 @@ public class BookRestController {
         this.bookService = bookService;
     }
 
+    @RequestMapping(method = RequestMethod.GET, path = "/{id}")
+    public BookDTO getBook(@PathVariable("id") long id) {
+        return bookService.findById(id);
+    }
+
+    // First variant of "search by rack id and/or shelf".
+    // Will work like "find all" without parameters
     @RequestMapping(method = RequestMethod.GET)
-    public List<BookDTO> getAllBooks() {
-        return bookService.findAllBooks();
+    public List<BookDTO> getBooksBy(@RequestParam(value = "rack_id", required = false) Long rackId,
+                                    @RequestParam(value = "shelf", required = false) Integer shelf) {
+        return bookService.findByRackAndShelf(rackId, shelf);
+    }
+
+    // Second variant of "search by rack id and/or shelf".
+    // This one is more flexible: we can use any BookDTO field for exact search without making any changes in endpoint.
+    @RequestMapping(method = RequestMethod.POST, path = "/by")
+    public List<BookDTO> getBooksByFilter(@RequestBody BookDTO bookDTO) {
+        return bookService.findByBookDTO(bookDTO);
     }
 
     @RequestMapping(method = RequestMethod.POST)

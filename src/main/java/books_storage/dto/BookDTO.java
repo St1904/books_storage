@@ -8,19 +8,19 @@ import java.util.stream.Collectors;
 
 public class BookDTO {
 
-    private long id;
+    private Long id;
     private String name;
-    private int shelf;
+    private Integer shelf;
     private RackDTO rack;
 
     public BookDTO() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -32,11 +32,11 @@ public class BookDTO {
         this.name = name;
     }
 
-    public int getShelf() {
+    public Integer getShelf() {
         return shelf;
     }
 
-    public void setShelf(int shelf) {
+    public void setShelf(Integer shelf) {
         this.shelf = shelf;
     }
 
@@ -53,7 +53,9 @@ public class BookDTO {
         book.setId(id);
         book.setName(name);
         book.setShelf(shelf);
-        book.setRack(rack.toEntity());
+        if (rack != null) {
+            book.setRack(rack.toEntity());
+        }
         return book;
     }
 

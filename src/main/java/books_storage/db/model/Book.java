@@ -11,14 +11,14 @@ public class Book {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
 
     @Range(min = 1, max = 3, message = "Shelf must be between {min} and {max} inclusive")
     @Column(name = "shelf")
-    private int shelf;
+    private Integer shelf;
 
     @ManyToOne(targetEntity = Rack.class)
     @JoinColumn(name = "rack_id", referencedColumnName = "id", nullable = false)
@@ -27,11 +27,11 @@ public class Book {
     public Book() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -43,11 +43,11 @@ public class Book {
         this.name = name;
     }
 
-    public int getShelf() {
+    public Integer getShelf() {
         return shelf;
     }
 
-    public void setShelf(int shelf) {
+    public void setShelf(Integer shelf) {
         this.shelf = shelf;
     }
 
