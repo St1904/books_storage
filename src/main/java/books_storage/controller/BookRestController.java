@@ -18,14 +18,14 @@ public class BookRestController {
         this.bookService = bookService;
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/{id}")
+    @GetMapping("/{id}")
     public BookDTO getBook(@PathVariable("id") long id) {
         return bookService.findById(id);
     }
 
     // First variant of "search by rack id and/or shelf".
     // Will work like "find all" without parameters
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public List<BookDTO> getBooksBy(@RequestParam(value = "rack_id", required = false) Long rackId,
                                     @RequestParam(value = "shelf", required = false) Integer shelf) {
         return bookService.findByRackAndShelf(rackId, shelf);
@@ -33,13 +33,25 @@ public class BookRestController {
 
     // Second variant of "search by rack id and/or shelf".
     // This one is more flexible: we can use any BookDTO field for exact search without making any changes in endpoint.
-    @RequestMapping(method = RequestMethod.POST, path = "/by")
+    @PostMapping("/by")
     public List<BookDTO> getBooksByFilter(@RequestBody BookDTO bookDTO) {
-        return bookService.findByBookDTO(bookDTO);
+        return bookService.findBy(bookDTO);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public BookDTO addBook(@RequestBody BookDTO bookDTO) {
         return bookService.save(bookDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable("id") long id) {
+        bookService.deleteById(id);
+    }
+
+    @PutMapping("/{id}")
+    public BookDTO updateBook(@PathVariable("id") long id,
+                              @RequestBody BookDTO bookDTO) {
+        bookDTO.setId(id);
+        return bookService.updateBook(bookDTO);
     }
 }

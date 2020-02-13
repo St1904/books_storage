@@ -18,6 +18,7 @@ public class RackRestController {
         this.rackService = rackService;
     }
 
+    // need this for manual testing (cannot save book without rack)
     @RequestMapping(method = RequestMethod.POST)
     public RackDTO addRack(RackDTO rackDTO) {
         return rackService.save(rackDTO);

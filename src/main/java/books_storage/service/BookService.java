@@ -35,6 +35,10 @@ public class BookService {
                 .orElseThrow(() -> new RuntimeException("Book not found by id: " + id)));
     }
 
+    public void deleteById(long id) {
+        bookRepository.deleteById(id);
+    }
+
     public List<BookDTO> findByRackAndShelf(Long rackId, Integer shelf) {
         Book bookExample = new Book();
         Rack rack = null;
@@ -49,7 +53,12 @@ public class BookService {
         return BookDTO.of(bookRepository.findAll(Example.of(bookExample, ExampleMatcher.matching().withIgnoreNullValues())));
     }
 
-    public List<BookDTO> findByBookDTO(BookDTO bookDTO) {
+    public List<BookDTO> findBy(BookDTO bookDTO) {
         return BookDTO.of(bookRepository.findAll(Example.of(bookDTO.toEntity(), ExampleMatcher.matching().withIgnoreNullValues())));
+    }
+
+    public BookDTO updateBook(BookDTO bookDTO) {
+        Book book = bookRepository.save(bookDTO.toEntity());
+        return BookDTO.of(book);
     }
 }

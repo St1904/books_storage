@@ -18,6 +18,10 @@ public class Rack {
     public Rack() {
     }
 
+    public Rack(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
